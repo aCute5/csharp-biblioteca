@@ -45,8 +45,9 @@ namespace csharp_biblioteca
             newUser.IsRegistered = true;
             return newUser;
         }
-     public string  SearchDocumentByTitle(List<Document> documents)
+     public List<Document>  SearchDocumentByTitle(List<Document> documents)
         {
+            List<Document> result = new List<Document>();
             if(IsRegistered == true)
             {
                 Console.WriteLine("Dimmi il Titolo del libro che vuoi cercare:)");
@@ -57,28 +58,26 @@ namespace csharp_biblioteca
                         if( document.Title != null && document.Title.Contains(titleSearch))
                         {
                             Console.WriteLine($"Titolo: {document.Title}, Autore: {document.Author}, Genere: {document.Type}");
-                            return document.Title;
+                            result.Add( document );
                         }
-                        else
+                        if(result.Count == 0)
                         {
                             Console.WriteLine("Nessun Titolo è stato trovato");
-                            return "";
-
+                         
                         }
                     }
                 } else
                 {
                     Console.WriteLine("Il campo titolo è vuoto");
-                    return "";
                 }
             }
             else
             {
                  Console.WriteLine("Non sei registrato");
-                return "";
+  
 
             }
-            return "";
+            return result;
         }
     
     }
@@ -102,6 +101,10 @@ namespace csharp_biblioteca
             Type = type;
             Position = position;
             Author = author;
+        }
+        public  override string ToString()
+        {
+            return $"Id: {Id}, Titolo: {Title}, Anno: {Year}, Tipo: {Type}, Posizione: {Position}, Autore: {Author}";
         }
     }
     internal class DVD : Document
@@ -129,13 +132,13 @@ namespace csharp_biblioteca
         public string? StartDate { get; set; }
         public string? EndDate { get; set; }
 
-        public List<Document>? prestDocument { get; set; }   
+        public List<Document>? PrestDocument { get; set; }   
 
         public Prestito(string? startDate, string? endDate, List<Document>? prestDocument)
         {
             StartDate = startDate;
             EndDate = endDate;
-            this.prestDocument = prestDocument;
+            this.PrestDocument = prestDocument;
         }
     }
 }
