@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ namespace csharp_biblioteca
        
         public bool IsRegistered { get; set; }
 
+        public Prestito? Prestito { get; set; }
+
         public User (string name, string surname, string email, string password, string phoneNumber)
         {
             Name = name;
@@ -24,9 +27,9 @@ namespace csharp_biblioteca
             Email = email;
             Password = password;
             PhoneNumber = phoneNumber;
-            IsRegistered = IsRegistered;
+           
         }
-    public User Register()
+        public static  User Register()
         {
             Console.WriteLine("Dimmi il tuo nome:");
             string name = Console.ReadLine() ?? "";
@@ -38,11 +41,11 @@ namespace csharp_biblioteca
             string? password = Console.ReadLine() ?? "";
             Console.WriteLine("Dimmi il tuo numero di telefono:");
             string? phoneNumber = Console.ReadLine() ?? "";
-            User newUser = new (name,surname,email, password,phoneNumber);
+            User newUser = new User  (name,surname,email, password,phoneNumber);
             newUser.IsRegistered = true;
             return newUser;
         }
-     public string  searchDocument(List<Document> documents)
+     public string  SearchDocumentByTitle(List<Document> documents)
         {
             if(IsRegistered == true)
             {
@@ -54,6 +57,7 @@ namespace csharp_biblioteca
                         if( document.Title != null && document.Title.Contains(titleSearch))
                         {
                             Console.WriteLine($"Titolo: {document.Title}, Autore: {document.Author}, Genere: {document.Type}");
+                            return document.Title;
                         }
                         else
                         {
@@ -65,7 +69,6 @@ namespace csharp_biblioteca
                 } else
                 {
                     Console.WriteLine("Il campo titolo è vuoto");
-                  
                     return "";
                 }
             }
@@ -75,7 +78,7 @@ namespace csharp_biblioteca
                 return "";
 
             }
-
+            return "";
         }
     
     }
@@ -83,7 +86,7 @@ namespace csharp_biblioteca
     {
         public int Id { get; set; }
         public string? Title { get; set; } 
-        public int Year { get; set; }
+        public string? Year { get; set; }
 
         public string? Type { get; set; }
 
@@ -91,14 +94,48 @@ namespace csharp_biblioteca
         
         public string? Author { get; set; }
 
-        public Document(int id, string? title, int year, string? type, int position, string? author)
+        public Document( string? title, string year, string? type, int position, string? author)
         {
-            Id = id;
+            Id = new Random().Next(100, 900);
             Title = title;
             Year = year;
             Type = type;
             Position = position;
             Author = author;
+        }
+    }
+    internal class DVD : Document
+    {
+        public string Time { get; set; } 
+
+        public DVD(string? title, string year, string? type, int position, string? author, string Time): base(title, year, type, position, author)
+        {
+            this.Time = Time;
+        }
+    }
+    internal class Book : Document
+    {
+        public string Pages { get; set; }
+
+        public Book(string? title, string year, string? type, int position, string? author, string Pages): base(title, year, type, position, author)
+        {
+            this.Pages = Pages;
+        }
+
+
+    }
+    internal class Prestito
+    {
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
+
+        public List<Document>? prestDocument { get; set; }   
+
+        public Prestito(string? startDate, string? endDate, List<Document>? prestDocument)
+        {
+            StartDate = startDate;
+            EndDate = endDate;
+            this.prestDocument = prestDocument;
         }
     }
 }
