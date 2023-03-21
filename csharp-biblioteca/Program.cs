@@ -18,5 +18,6 @@ List<Document> title = user.SearchDocumentByTitle(documents);
 foreach( var Document in title)
 {
     Console.WriteLine(Document.ToString());
+
 }
 

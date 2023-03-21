@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
@@ -79,7 +80,17 @@ namespace csharp_biblioteca
             }
             return result;
         }
-    
+     public Prestito takeDocument(Prestito prestito, Document document )
+        {
+            Prestito _prestito = new Prestito("","", null);
+            Console.WriteLine("Vuoi prenderlo in prestito? y/n");
+            string answer = Console.ReadLine() ?? "";
+            if(answer == "y")
+            {
+                Console.WriteLine("Bene ecco il tuo prestito");
+                _prestito = new Prestito("oggi", "domani", _prestito.PrestDocument.Add(document));
+            }
+        }
     }
     internal class Document
     {
@@ -140,6 +151,7 @@ namespace csharp_biblioteca
             EndDate = endDate;
             this.PrestDocument = prestDocument;
         }
+
     }
 }
 
